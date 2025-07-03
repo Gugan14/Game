@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Grow A Garden</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -28,11 +28,25 @@
         <!-- Center screen interaction prompt -->
         <div id="interaction-prompt" class="hidden"></div>
 
-        <!-- Lock screen instructions -->
+        <!-- Mobile Controls -->
+        <div id="mobile-controls" class="hidden">
+            <div id="joystick-area">
+                <div id="joystick"></div>
+            </div>
+            <div id="action-buttons">
+                <button id="interact-button-mobile">E</button>
+                <button id="jump-button">JUMP</button>
+            </div>
+        </div>
+
+        <!-- Lock screen instructions (for Desktop) -->
         <div id="blocker">
 			<div id="instructions">
-				<p style="font-size: 36px">Click to Play</p>
-				<p>
+				<p style="font-size: 36px">
+                    <span class="desktop-only">Click to Play</span>
+                    <span class="mobile-only">Tap to Play</span>
+                </p>
+				<p class="desktop-only">
 					Move: WASD<br/>
 					Jump: SPACE<br/>
 					Look: MOUSE<br/>
