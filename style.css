@@ -1,0 +1,109 @@
+body {
+    margin: 0;
+    overflow: hidden; /* Hide scrollbars */
+    font-family: 'Arial', sans-serif;
+    background-color: #000;
+}
+
+#game-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+}
+
+#ui-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allows mouse events to pass through to the canvas */
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+}
+
+#nav-buttons {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    pointer-events: auto; /* Re-enable pointer events for buttons */
+}
+
+#nav-buttons button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: rgba(0, 120, 255, 0.7);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#nav-buttons button:hover {
+    background-color: rgba(0, 150, 255, 0.9);
+}
+
+#coin-display {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 2px solid #ffc107;
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#coin-display img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+#interaction-prompt {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 15px 25px;
+    border-radius: 10px;
+    font-size: 20px;
+    border: 2px solid white;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Pointer Lock Styles */
+#blocker {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+}
+
+#instructions {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+}
