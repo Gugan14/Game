@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grow A Garden</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- The 3D game will be rendered here -->
+    <canvas id="game-canvas"></canvas>
+
+    <!-- UI Elements -->
+    <div id="ui-container">
+        <!-- Top navigation buttons -->
+        <div id="nav-buttons">
+            <button id="teleport-garden">Garden</button>
+            <button id="teleport-shop">Seed Shop</button>
+            <button id="teleport-seller">Selling Place</button>
+        </div>
+
+        <!-- Coin display -->
+        <div id="coin-display">
+            <img src="https://i.imgur.com/sKM9z2L.png" alt="Coin">
+            <span id="coin-count">100</span>
+        </div>
+
+        <!-- Center screen interaction prompt -->
+        <div id="interaction-prompt" class="hidden"></div>
+
+        <!-- Lock screen instructions -->
+        <div id="blocker">
+			<div id="instructions">
+				<p style="font-size: 36px">Click to Play</p>
+				<p>
+					Move: WASD<br/>
+					Jump: SPACE<br/>
+					Look: MOUSE<br/>
+                    Interact: E
+				</p>
+			</div>
+		</div>
+    </div>
+
+    <!-- Import Three.js Library -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <!-- Our Game Logic -->
+    <script type="module" src="main.js"></script>
+</body>
+</html>
