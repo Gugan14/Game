@@ -1,188 +1,56 @@
-body {
-    margin: 0;
-    overflow: hidden; /* Hide scrollbars */
-    font-family: 'Arial', sans-serif;
-    background-color: #000;
-}
+body { margin: 0; overflow: hidden; font-family: 'Arial', sans-serif; background-color: #000; }
+#game-canvas { position: fixed; top: 0; left: 0; outline: none; }
+#ui-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; color: white; text-shadow: 1px 1px 3px #000; }
+.hidden { display: none !important; }
 
-#game-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    outline: none;
-}
+/* --- Top Nav & Coins --- */
+#nav-buttons { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; pointer-events: auto; }
+#nav-buttons button { padding: 10px 20px; font-size: 16px; background: rgba(0, 120, 255, 0.7); border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 8px; color: white; cursor: pointer; transition: background-color 0.2s; }
+#nav-buttons button:hover { background-color: rgba(0, 150, 255, 0.9); }
+#coin-display { position: absolute; top: 20px; left: 20px; background: rgba(0, 0, 0, 0.5); padding: 10px 15px; border-radius: 10px; border: 2px solid #ffc107; display: flex; align-items: center; font-size: 24px; font-weight: bold; }
+#coin-display img { width: 30px; height: 30px; margin-right: 10px; }
 
-#ui-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none; /* Allows mouse events to pass through to the canvas */
-    color: white;
-    text-shadow: 2px 2px 4px #000000;
-}
+/* --- Inventory Hotbar --- */
+#inventory-bar { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; pointer-events: auto; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 12px; }
+.inventory-slot { width: 60px; height: 60px; background: rgba(0,0,0,0.4); border: 2px solid rgba(255,255,255,0.3); border-radius: 8px; cursor: pointer; position: relative; display: flex; align-items: center; justify-content: center; font-size: 24px; user-select: none; }
+.inventory-slot.selected { border-color: #ffc107; box-shadow: 0 0 10px #ffc107; }
+.item-quantity { position: absolute; bottom: 2px; right: 5px; font-size: 16px; font-weight: bold; }
 
-/* --- Top Nav --- */
-#nav-buttons {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 10px;
-    pointer-events: auto;
-}
+/* --- Hold-to-Interact Prompt --- */
+#hold-prompt { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; pointer-events: auto; }
+.prompt-key { font-size: 32px; font-weight: bold; }
+.progress-ring { position: absolute; top: 0; left: 0; transform: rotate(-90deg); }
+.progress-ring-circle { transition: stroke-dashoffset 0.1s linear; stroke-linecap: round; }
 
-#nav-buttons button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: rgba(0, 120, 255, 0.7);
-    border: 2px solid rgba(255, 255, 255, 0.8);
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
+/* --- UI Modals (Shop/Seller) --- */
+.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; pointer-events: auto; z-index: 100; }
+.modal-content { background: #2c3e50; padding: 25px; border-radius: 15px; border: 3px solid #34495e; min-width: 300px; max-width: 90%; text-align: center; }
+.modal-content h2 { margin-top: 0; }
+.modal-close-button { background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 16px; cursor: pointer; margin-top: 20px; }
+#shop-item-list, #sell-options { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+.shop-item, #sell-options button { display: flex; justify-content: space-between; align-items: center; background: #34495e; padding: 10px; border-radius: 8px; }
+.shop-item button, #sell-options button { width: 100%; background: #2980b9; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; }
+.shop-item button:hover { background: #3498db; }
 
-#nav-buttons button:hover {
-    background-color: rgba(0, 150, 255, 0.9);
-}
+/* --- Blocker --- */
+#blocker { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; pointer-events: auto; z-index: 200; }
+#instructions { width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; font-size: 14px; cursor: pointer; }
 
-/* --- Coin Display --- */
-#coin-display {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px 15px;
-    border-radius: 10px;
-    border: 2px solid #ffc107;
-    display: flex;
-    align-items: center;
-    font-size: 24px;
-    font-weight: bold;
-}
+/* --- Mobile Specific Controls --- */
+#mobile-controls { position: absolute; width: 100%; height: 100%; }
+#joystick-area { position: absolute; bottom: 20px; left: 20px; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; }
+#joystick { width: 70px; height: 70px; background: rgba(255, 255, 255, 0.4); border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.8); }
+#look-area { position: absolute; top: 0; right: 0; width: 50%; height: 100%; }
+#action-buttons { position: absolute; bottom: 40px; right: 20px; display: flex; flex-direction: column; gap: 20px; }
+#action-buttons button { width: 70px; height: 70px; font-size: 16px; color: white; background: rgba(0, 0, 0, 0.3); border: 2px solid rgba(255, 255, 255, 0.7); border-radius: 50%; }
 
-#coin-display img {
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-}
-
-/* --- Interaction Prompt --- */
-#interaction-prompt {
-    position: absolute;
-    top: 45%; /* Adjusted for mobile view */
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.6);
-    padding: 15px 25px;
-    border-radius: 10px;
-    font-size: 20px;
-    border: 2px solid white;
-    text-align: center;
-}
-
-/* --- Pointer Lock Screen (Desktop) --- */
-#blocker {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: auto;
-}
-
-#instructions {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-/* --- Mobile Controls --- */
-#mobile-controls {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    pointer-events: auto;
-}
-
-#joystick-area {
-    position: absolute;
-    bottom: 40px;
-    left: 40px;
-    width: 120px;
-    height: 120px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#joystick {
-    width: 60px;
-    height: 60px;
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.8);
-}
-
-#action-buttons {
-    position: absolute;
-    bottom: 40px;
-    right: 40px;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-}
-
-#action-buttons button {
-    width: 70px;
-    height: 70px;
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-    background: rgba(0, 0, 0, 0.3);
-    border: 2px solid rgba(255, 255, 255, 0.7);
-    border-radius: 50%;
-    text-align: center;
-    -webkit-tap-highlight-color: transparent; /* Disable tap highlight on iOS */
-}
-#interact-button-mobile {
-    width: 60px;
-    height: 60px;
-}
-
-
-/* --- Utility and Responsive Classes --- */
-.hidden {
-    display: none !important;
-}
-.desktop-only { display: block; }
-.mobile-only { display: none; }
-
-
-/* Media Query for mobile/touch devices */
-/* 'pointer: coarse' is a modern way to detect touch-primary devices */
+/* --- Responsive Adjustments --- */
+.desktop-only { display: block; } .mobile-only { display: none; }
 @media (pointer: coarse), (max-width: 768px) {
-    .desktop-only { display: none; }
-    .mobile-only { display: inline; }
-    #mobile-controls { display: block; }
-
-    /* Hide desktop instructions and blocker if not needed */
+    .desktop-only { display: none; } .mobile-only { display: inline; }
+    #mobile-controls, #hold-prompt { pointer-events: auto; }
     #instructions .desktop-only { display: none; }
-
-    #coin-display { font-size: 20px; padding: 8px 12px; }
-    #nav-buttons button { padding: 8px 12px; font-size: 14px; }
-    #interaction-prompt { font-size: 16px; width: 70%;}
+    #coin-display { font-size: 18px; padding: 8px 10px; top: 15px; left: 15px; }
+    #nav-buttons { gap: 5px; } #nav-buttons button { padding: 8px 10px; font-size: 12px; }
+    #inventory-bar { gap: 5px; padding: 5px; } .inventory-slot { width: 45px; height: 45px; font-size: 18px; } .item-quantity { font-size: 12px; }
 }
